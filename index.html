@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UX Interview Assistant</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'SF Pro Display', Roboto, sans-serif;
+            background: linear-gradient(180deg, #f5e6f0 0%, #e8f0f7 50%, #fde8e8 100%);
+            min-height: 100vh;
+            padding: 0;
+            margin: 0;
+            color: #2d2d2d;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(255, 182, 193, 0.15), transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(176, 196, 222, 0.15), transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(255, 218, 224, 0.1), transparent 60%);
+            animation: gradientShift 20s ease infinite;
+            z-index: -1;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .container {
+            max-width: 1500px;
+            margin: 0 auto;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 24px 32px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin: 0;
+            font-weight: 600;
+            color: #2d2d2d;
+            letter-spacing: -1px;
+            text-align: center;
+        }
+
+        .content {
+            padding: 0;
+            position: relative;
+        }
+
+        .main-content-focused {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        @media (max-width: 1024px) {
+            .main-content-focused {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .questions-section-focused {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .questions-section-focused:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .section-title-focused {
+            font-size: 1.6em;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #2d2d2d;
+            text-align: left;
+            letter-spacing: -0.5px;
+        }
+
+        .question-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            border-radius: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: slideIn 0.5s ease-out;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .question-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #b8a4d5 0%, #c7b5dd 100%);
+            border-radius: 16px 0 0 16px;
+        }
+
+        .question-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            background: rgba(255, 255, 255, 0.75);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .question-number {
+            display: inline-block;
+            background: #2d2d2d;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            text-align: center;
+            line-height: 32px;
+            font-weight: 600;
+            margin-right: 14px;
+            font-size: 0.9em;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .question-text {
+            font-size: 1.05em;
+            color: #2d2d2d;
+            line-height: 1.7;
+            font-weight: 500;
+        }
+
+        .audio-section-focused {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .audio-section-focused:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .audio-controls-focused {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .audio-btn-focused {
+            padding: 18px 24px;
+            border: none;
+            border-radius: 16px;
+            font-size: 0.95em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .audio-btn-focused::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .audio-btn-focused:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .audio-btn-focused.start-btn {
+            background: #2d2d2d;
+            color: white;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .audio-btn-focused.start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .audio-btn-focused.stop-btn {
+            background: #6b5b7b;
+            color: white;
+            box-shadow: 0 2px 12px rgba(107, 91, 123, 0.3);
+        }
+
+        .audio-btn-focused.stop-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(107, 91, 123, 0.4);
+        }
+
+        .audio-btn-focused.generate-btn {
+            background: rgba(184, 164, 213, 0.2);
+            color: #2d2d2d;
+            border: 1.5px solid #b8a4d5;
+            box-shadow: 0 2px 12px rgba(184, 164, 213, 0.2);
+        }
+
+        .audio-btn-focused.generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(184, 164, 213, 0.3);
+            background: rgba(184, 164, 213, 0.3);
+        }
+
+        .audio-btn-focused.generate-btn:disabled {
+            background: rgba(184, 164, 213, 0.1);
+            color: rgba(45, 45, 45, 0.4);
+            border: 1.5px solid rgba(184, 164, 213, 0.3);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .listening-status {
+            padding: 14px 20px;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 12px;
+            margin-bottom: 0;
+            font-size: 0.95em;
+            min-height: 50px;
+            font-weight: 500;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            color: #2d2d2d;
+        }
+
+        .listening-status.active {
+            background: rgba(184, 164, 213, 0.15);
+            color: #2d2d2d;
+            border: 1px solid rgba(184, 164, 213, 0.4);
+            box-shadow: 0 2px 12px rgba(184, 164, 213, 0.15);
+        }
+
+        .listening-status.error {
+            background: rgba(227, 143, 169, 0.15);
+            color: #2d2d2d;
+            border: 1px solid rgba(227, 143, 169, 0.4);
+            box-shadow: 0 2px 12px rgba(227, 143, 169, 0.15);
+        }
+
+        .connection-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        .connection-indicator.connected {
+            background: #4ade80;
+        }
+
+        .connection-indicator.connecting {
+            background: #fbbf24;
+        }
+
+        .connection-indicator.error {
+            background: #ef4444;
+            animation: none;
+        }
+
+        .live-transcript-section {
+            margin-top: 0;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 100px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .live-transcript-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .live-transcript-container {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 16px;
+            padding: 20px;
+            max-height: calc(100vh - 300px);
+            min-height: 400px;
+            overflow-y: auto;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #2d2d2d;
+        }
+
+        .live-transcript-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .live-transcript-container::-webkit-scrollbar-track {
+            background: rgba(184, 164, 213, 0.1);
+            border-radius: 10px;
+        }
+
+        .live-transcript-container::-webkit-scrollbar-thumb {
+            background: rgba(184, 164, 213, 0.4);
+            border-radius: 10px;
+        }
+
+        .live-transcript-container::-webkit-scrollbar-thumb:hover {
+            background: rgba(184, 164, 213, 0.6);
+        }
+
+        .transcript-placeholder {
+            text-align: center;
+            color: rgba(45, 45, 45, 0.5);
+            font-style: italic;
+            padding: 40px 20px;
+            font-size: 1.05em;
+        }
+
+        .transcript-entry {
+            margin-bottom: 16px;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            animation: slideIn 0.5s ease-out;
+            transition: all 0.3s ease;
+        }
+
+        .transcript-entry:hover {
+            background: rgba(255, 255, 255, 0.65);
+            transform: translateX(2px);
+        }
+
+        .transcript-speaker {
+            font-weight: 600;
+            color: #6b5b7b;
+            font-size: 0.9em;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .transcript-text {
+            color: #2d2d2d;
+            line-height: 1.7;
+            font-size: 0.98em;
+        }
+
+        .transcript-time {
+            font-size: 0.75em;
+            color: rgba(45, 45, 45, 0.5);
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 30px 20px;
+            color: rgba(45, 45, 45, 0.6);
+            font-size: 1.05em;
+            font-weight: 500;
+        }
+
+        .error {
+            background: rgba(227, 143, 169, 0.15);
+            color: #8b5a6b;
+            padding: 16px 20px;
+            border-radius: 14px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(227, 143, 169, 0.3);
+            font-size: 0.95em;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            font-weight: 500;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 24px;
+            margin-top: 30px;
+            color: rgba(45, 45, 45, 0.6);
+            font-size: 0.9em;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            font-weight: 500;
+        }
+
+        @media (max-width: 600px) {
+            .header {
+                padding: 16px;
+            }
+
+            .header h1 {
+                font-size: 1.3em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .question-text {
+                font-size: 1em;
+            }
+
+            .audio-btn-focused {
+                font-size: 0.95em;
+                padding: 14px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎤 Interview Assistant</h1>
+        </div>
+
+        <div class="content">
+            <div id="error-container"></div>
+
+            <!-- Main Content - Side by Side Layout -->
+            <div class="main-content-focused">
+                <!-- Left Column: Questions and Audio Controls -->
+                <div class="left-column">
+                    <!-- Questions Section -->
+                    <div class="questions-section-focused">
+                        <div class="section-title-focused">💡 Suggested Questions</div>
+                        <div id="questions-container">
+                            <div class="loading">Loading questions...</div>
+                        </div>
+                    </div>
+
+                    <!-- Audio Controls -->
+                    <div class="audio-section-focused">
+                        <div class="audio-controls-focused">
+                            <button id="start-listening-btn" class="audio-btn-focused start-btn" onclick="startListening()">
+                                🎤 START RECORDING
+                            </button>
+                            <button id="stop-listening-btn" class="audio-btn-focused stop-btn" onclick="stopListening()" style="display: none;">
+                                ⏹️ STOP RECORDING
+                            </button>
+                            <button id="generate-btn" class="audio-btn-focused generate-btn" onclick="generateQuestions()">
+                                ✨ GENERATE QUESTIONS
+                            </button>
+                        </div>
+                        <div id="listening-status" class="listening-status"></div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Live Transcript (Always Visible) -->
+                <div id="live-transcript-section" class="live-transcript-section">
+                    <div class="section-title-focused">📝 Live Transcript</div>
+                    <div id="live-transcript-container" class="live-transcript-container">
+                        <div class="transcript-placeholder">Start recording to see transcript...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            Click "Generate Questions" to get AI-powered interview suggestions
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = window.location.origin;
+        let isListening = false;
+        let mediaRecorder = null;
+        let audioContext = null;
+        let deepgramSocket = null;
+        let audioStream = null;
+        let reconnectAttempts = 0;
+        let maxReconnectAttempts = 5;
+        let reconnectTimeout = null;
+        let keepAliveInterval = null;
+        let deepgramApiKey = null;
+        let liveTranscriptEntries = [];
+
+        // Fetch and display questions
+        async function fetchQuestions() {
+            try {
+                const response = await fetch(`${API_BASE}/suggestions`);
+                if (!response.ok) throw new Error('Failed to fetch questions');
+
+                const data = await response.json();
+                displayQuestions(data.questions);
+                hideError();
+            } catch (error) {
+                console.error('Error fetching questions:', error);
+                showError('Unable to fetch questions. Make sure the backend is running.');
+            }
+        }
+
+        // Display questions in the UI
+        function displayQuestions(questions) {
+            const container = document.getElementById('questions-container');
+
+            if (!questions || questions.length === 0) {
+                container.innerHTML = '<div class="loading">No questions available yet.</div>';
+                return;
+            }
+
+            container.innerHTML = questions.map((question, index) => `
+                <div class="question-card">
+                    <span class="question-number">${index + 1}</span>
+                    <span class="question-text">${escapeHtml(question)}</span>
+                </div>
+            `).join('');
+        }
+
+        // Show error message
+        function showError(message) {
+            const container = document.getElementById('error-container');
+            container.innerHTML = `<div class="error">⚠️ ${escapeHtml(message)}</div>`;
+        }
+
+        // Hide error message
+        function hideError() {
+            const container = document.getElementById('error-container');
+            container.innerHTML = '';
+        }
+
+        // Escape HTML to prevent XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Initial fetch on page load
+        fetchQuestions();
+
+        // Generate questions manually when user clicks button
+        async function generateQuestions() {
+            const btn = document.getElementById('generate-btn');
+            btn.disabled = true;
+            btn.textContent = '⏳ GENERATING...';
+
+            await fetchQuestions();
+
+            btn.disabled = false;
+            btn.textContent = '✨ GENERATE QUESTIONS';
+        }
+
+
+        // ===== LIVE AUDIO TRANSCRIPTION (DEEPGRAM) WITH AUTO-RECONNECT =====
+
+        async function startListening() {
+            try {
+                // Request microphone access (only once)
+                if (!audioStream) {
+                    audioStream = await navigator.mediaDevices.getUserMedia({
+                        audio: {
+                            channelCount: 1,
+                            sampleRate: 16000,
+                            echoCancellation: true,
+                            noiseSuppression: true
+                        }
+                    });
+                }
+
+                // Get Deepgram API key from backend (cache it)
+                if (!deepgramApiKey) {
+                    const response = await fetch(`${API_BASE}/deepgram-key`);
+                    const data = await response.json();
+
+                    if (!data.api_key) {
+                        throw new Error('Deepgram API key not configured. Please add DEEPGRAM_API_KEY to your .env file. Get a free key at https://deepgram.com');
+                    }
+                    deepgramApiKey = data.api_key;
+                }
+
+                // Connect to Deepgram WebSocket
+                updateListeningStatus('🔄 Connecting to Deepgram...', 'active');
+                const deepgramUrl = `wss://api.deepgram.com/v1/listen?encoding=linear16&sample_rate=16000&channels=1&model=nova-2&language=en-US&punctuate=true&interim_results=true`;
+                deepgramSocket = new WebSocket(deepgramUrl, ['token', deepgramApiKey]);
+
+                deepgramSocket.onopen = () => {
+                    console.log('✓ Connected to Deepgram');
+                    reconnectAttempts = 0; // Reset reconnect counter on successful connection
+                    updateListeningStatus('🎤 Listening... (Connected)', 'active');
+                    isListening = true;
+                    document.getElementById('start-listening-btn').style.display = 'none';
+                    document.getElementById('stop-listening-btn').style.display = 'block';
+
+                    // Clear previous transcript (only on fresh start, not reconnect)
+                    if (reconnectAttempts === 0 && liveTranscriptEntries.length === 0) {
+                        clearLiveTranscript();
+                    }
+
+                    // Start sending audio
+                    startAudioStream(audioStream);
+
+                    // Start keep-alive pings (every 8 seconds)
+                    startKeepAlive();
+                };
+
+                deepgramSocket.onmessage = (event) => {
+                    const data = JSON.parse(event.data);
+                    console.log('Deepgram message:', data);
+
+                    // Handle transcript messages
+                    if (data.channel && data.channel.alternatives && data.channel.alternatives[0]) {
+                        const transcript = data.channel.alternatives[0].transcript;
+                        if (transcript && data.is_final) {
+                            console.log('Final transcript:', transcript);
+                            // Add to live transcript display
+                            addToLiveTranscript(transcript, 'Participant');
+
+                            // Send to backend
+                            sendTranscriptToBackend(transcript, 'Participant');
+                            updateListeningStatus('🎤 Listening... (Transcribing)', 'active');
+                        }
+                    }
+                };
+
+                deepgramSocket.onerror = (error) => {
+                    console.error('Deepgram error:', error);
+                    updateListeningStatus(`⚠️ Connection error (attempt ${reconnectAttempts + 1}/${maxReconnectAttempts})`, 'error');
+                };
+
+                deepgramSocket.onclose = (event) => {
+                    console.log('Deepgram connection closed', event.code, event.reason);
+                    stopKeepAlive();
+
+                    if (isListening && reconnectAttempts < maxReconnectAttempts) {
+                        // Auto-reconnect
+                        reconnectAttempts++;
+                        const delay = Math.min(1000 * Math.pow(2, reconnectAttempts - 1), 10000); // Exponential backoff
+                        updateListeningStatus(`🔄 Reconnecting in ${delay/1000}s... (${reconnectAttempts}/${maxReconnectAttempts})`, 'active');
+
+                        reconnectTimeout = setTimeout(() => {
+                            if (isListening) {
+                                console.log('Attempting reconnect...');
+                                startListening();
+                            }
+                        }, delay);
+                    } else if (isListening && reconnectAttempts >= maxReconnectAttempts) {
+                        updateListeningStatus('❌ Connection lost. Click "START RECORDING" to retry.', 'error');
+                        isListening = false;
+                        document.getElementById('start-listening-btn').style.display = 'block';
+                        document.getElementById('stop-listening-btn').style.display = 'none';
+                        reconnectAttempts = 0;
+                    }
+                };
+
+            } catch (error) {
+                console.error('Error starting audio:', error);
+                if (error.name === 'NotAllowedError') {
+                    updateListeningStatus('❌ Microphone access denied. Please allow microphone access and try again.', 'error');
+                } else if (error.message.includes('Deepgram')) {
+                    updateListeningStatus(`❌ ${error.message}`, 'error');
+                } else {
+                    updateListeningStatus('❌ Error: ' + error.message, 'error');
+                }
+                isListening = false;
+            }
+        }
+
+        // Keep-alive function to prevent timeout during silence
+        function startKeepAlive() {
+            stopKeepAlive(); // Clear any existing interval
+            keepAliveInterval = setInterval(() => {
+                if (deepgramSocket && deepgramSocket.readyState === WebSocket.OPEN) {
+                    try {
+                        // Send empty audio buffer as keepalive (silence)
+                        const silentBuffer = new Int16Array(4096);
+                        deepgramSocket.send(silentBuffer.buffer);
+                        console.log('📡 Keep-alive ping sent');
+                    } catch (e) {
+                        console.error('Keep-alive failed:', e);
+                    }
+                }
+            }, 5000); // Every 5 seconds
+        }
+
+        function stopKeepAlive() {
+            if (keepAliveInterval) {
+                clearInterval(keepAliveInterval);
+                keepAliveInterval = null;
+            }
+        }
+
+        function startAudioStream(stream) {
+            try {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)({
+                    sampleRate: 16000
+                });
+
+                const source = audioContext.createMediaStreamSource(stream);
+                const processor = audioContext.createScriptProcessor(4096, 1, 1);
+
+                let audioChunksSent = 0;
+                processor.onaudioprocess = (e) => {
+                    if (deepgramSocket && deepgramSocket.readyState === WebSocket.OPEN) {
+                        try {
+                            const inputData = e.inputBuffer.getChannelData(0);
+                            const int16Array = new Int16Array(inputData.length);
+                            for (let i = 0; i < inputData.length; i++) {
+                                int16Array[i] = Math.max(-32768, Math.min(32767, inputData[i] * 32768));
+                            }
+                            deepgramSocket.send(int16Array.buffer);
+                            audioChunksSent++;
+                            if (audioChunksSent === 1) {
+                                console.log('✓ Audio streaming started, first chunk sent');
+                            }
+                        } catch (err) {
+                            console.error('Error sending audio:', err);
+                        }
+                    }
+                };
+
+                source.connect(processor);
+                processor.connect(audioContext.destination);
+                console.log('✓ Audio stream configured');
+            } catch (error) {
+                console.error('Error setting up audio stream:', error);
+            }
+        }
+
+        function stopListening() {
+            console.log('Stopping listening...');
+            isListening = false;
+            reconnectAttempts = 0;
+
+            // Clear reconnect timeout
+            if (reconnectTimeout) {
+                clearTimeout(reconnectTimeout);
+                reconnectTimeout = null;
+            }
+
+            // Stop keep-alive
+            stopKeepAlive();
+
+            // Close WebSocket
+            if (deepgramSocket) {
+                deepgramSocket.close();
+                deepgramSocket = null;
+            }
+
+            // Stop audio stream
+            if (audioStream) {
+                audioStream.getTracks().forEach(track => track.stop());
+                audioStream = null;
+            }
+
+            // Close audio context
+            if (audioContext) {
+                audioContext.close();
+                audioContext = null;
+            }
+
+            document.getElementById('start-listening-btn').style.display = 'block';
+            document.getElementById('stop-listening-btn').style.display = 'none';
+            updateListeningStatus('', '');
+        }
+
+        function addToLiveTranscript(text, speaker) {
+            // Add to transcript array
+            const timestamp = new Date().toLocaleTimeString();
+            liveTranscriptEntries.push({
+                text: text,
+                speaker: speaker,
+                timestamp: timestamp
+            });
+
+            // Keep last 50 entries
+            if (liveTranscriptEntries.length > 50) {
+                liveTranscriptEntries.shift();
+            }
+
+            // Update display
+            updateLiveTranscriptDisplay();
+        }
+
+        function updateLiveTranscriptDisplay() {
+            const container = document.getElementById('live-transcript-container');
+
+            if (liveTranscriptEntries.length === 0) {
+                container.innerHTML = '<div class="transcript-placeholder">Start recording to see transcript...</div>';
+                return;
+            }
+
+            container.innerHTML = liveTranscriptEntries.map(entry => `
+                <div class="transcript-entry">
+                    <div class="transcript-speaker">${escapeHtml(entry.speaker)}</div>
+                    <div class="transcript-text">${escapeHtml(entry.text)}</div>
+                    <div class="transcript-time">${escapeHtml(entry.timestamp)}</div>
+                </div>
+            `).join('');
+
+            // Auto-scroll to bottom
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function clearLiveTranscript() {
+            liveTranscriptEntries = [];
+            updateLiveTranscriptDisplay();
+        }
+
+        function updateListeningStatus(message, className) {
+            const statusEl = document.getElementById('listening-status');
+
+            // Add connection indicator dot
+            let indicatorClass = '';
+            if (className === 'active') {
+                if (message.includes('Connecting')) {
+                    indicatorClass = 'connecting';
+                } else {
+                    indicatorClass = 'connected';
+                }
+            } else if (className === 'error') {
+                indicatorClass = 'error';
+            }
+
+            if (indicatorClass) {
+                statusEl.innerHTML = `<span class="connection-indicator ${indicatorClass}"></span>${message}`;
+            } else {
+                statusEl.textContent = message;
+            }
+
+            statusEl.className = 'listening-status ' + className;
+        }
+
+        async function sendTranscriptToBackend(text, speaker) {
+            try {
+                await fetch(`${API_BASE}/transcript`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        text: text,
+                        speaker: speaker
+                    })
+                });
+                // Don't auto-refresh questions - user will press "Generate Questions" button when ready
+            } catch (error) {
+                console.error('Error sending transcript:', error);
+            }
+        }
+    </script>
+</body>
+</html>
