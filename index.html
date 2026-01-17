@@ -43,885 +43,954 @@
         }
 
         .container {
-            max-width: 1500px;
+            max-width: 1200px;
             margin: 0 auto;
-            min-height: 100vh;
-            padding: 20px;
+            padding: 40px 20px;
+        }
+
+        /* Screen Management */
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Common Card Styles */
+        .card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            margin-bottom: 24px;
         }
 
         .header {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            border-radius: 20px;
-            padding: 24px 32px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            margin-bottom: 40px;
         }
 
         .header h1 {
-            font-size: 2em;
-            margin: 0;
+            font-size: 2.5em;
             font-weight: 600;
             color: #2d2d2d;
+            margin-bottom: 12px;
             letter-spacing: -1px;
-            text-align: center;
         }
 
-        .content {
-            padding: 0;
-            position: relative;
+        .header p {
+            font-size: 1.1em;
+            color: #666;
+            line-height: 1.6;
         }
 
-        .main-content-focused {
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 28px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 1em;
+            font-weight: 600;
+            color: #2d2d2d;
+            margin-bottom: 12px;
+        }
+
+        .form-group textarea,
+        .form-group input {
+            width: 100%;
+            padding: 16px;
+            font-size: 1em;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            font-family: inherit;
+            background: rgba(255, 255, 255, 0.7);
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        .form-group textarea:focus,
+        .form-group input:focus {
+            outline: none;
+            border-color: #a855f7;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.1);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+        }
+
+        /* Button Styles */
+        .btn {
+            padding: 16px 32px;
+            font-size: 1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+            color: white;
+            box-shadow: 0 4px 16px rgba(168, 85, 247, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(168, 85, 247, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.9);
+            color: #2d2d2d;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 1);
+            border-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(239, 68, 68, 0.4);
+        }
+
+        .btn-full {
+            width: 100%;
+        }
+
+        /* Question Categories */
+        .category {
+            margin-bottom: 32px;
+            padding: 24px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 16px;
+            border: 2px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .category-header {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #2d2d2d;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .question-item {
+            padding: 16px;
+            margin-bottom: 12px;
+            background: white;
+            border-radius: 12px;
+            border: 2px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .question-item.removed {
+            opacity: 0.4;
+            text-decoration: line-through;
+        }
+
+        .question-text {
+            flex: 1;
+            font-size: 1em;
+            color: #2d2d2d;
+            line-height: 1.5;
+        }
+
+        .question-actions {
+            display: flex;
+            gap: 12px;
+            margin-left: 16px;
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 0.9em;
+        }
+
+        /* Interview Screen Styles */
+        .interview-layout {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 24px;
-            align-items: start;
         }
 
         @media (max-width: 1024px) {
-            .main-content-focused {
+            .interview-layout {
                 grid-template-columns: 1fr;
             }
         }
 
-        .questions-section-focused {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            border-radius: 24px;
-            padding: 32px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .questions-section-focused:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-        }
-
-        .left-column {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-
-        .section-title-focused {
-            font-size: 1.6em;
-            font-weight: 600;
-            margin-bottom: 24px;
-            color: #2d2d2d;
-            text-align: left;
-            letter-spacing: -0.5px;
-        }
-
-        .question-card {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.7);
-            padding: 20px 24px;
-            margin-bottom: 16px;
+        .transcript-box {
+            background: rgba(255, 255, 255, 0.7);
             border-radius: 16px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            animation: slideIn 0.5s ease-out;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .question-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(180deg, #b8a4d5 0%, #c7b5dd 100%);
-            border-radius: 16px 0 0 16px;
-        }
-
-        .question-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-            background: rgba(255, 255, 255, 0.75);
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .question-number {
-            display: inline-block;
-            background: #2d2d2d;
-            color: white;
-            width: 32px;
-            height: 32px;
-            border-radius: 10px;
-            text-align: center;
-            line-height: 32px;
-            font-weight: 600;
-            margin-right: 14px;
-            font-size: 0.9em;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .question-text {
-            font-size: 1.05em;
-            color: #2d2d2d;
-            line-height: 1.7;
-            font-weight: 500;
-        }
-
-        .audio-section-focused {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            border-radius: 24px;
-            padding: 32px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .audio-section-focused:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-        }
-
-        .audio-controls-focused {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-            margin-bottom: 20px;
-        }
-
-        .audio-btn-focused {
-            padding: 18px 24px;
-            border: none;
-            border-radius: 16px;
-            font-size: 0.95em;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .audio-btn-focused::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .audio-btn-focused:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        .audio-btn-focused.start-btn {
-            background: #2d2d2d;
-            color: white;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .audio-btn-focused.start-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-        }
-
-        .audio-btn-focused.stop-btn {
-            background: #6b5b7b;
-            color: white;
-            box-shadow: 0 2px 12px rgba(107, 91, 123, 0.3);
-        }
-
-        .audio-btn-focused.stop-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(107, 91, 123, 0.4);
-        }
-
-        .audio-btn-focused.generate-btn {
-            background: rgba(184, 164, 213, 0.2);
-            color: #2d2d2d;
-            border: 1.5px solid #b8a4d5;
-            box-shadow: 0 2px 12px rgba(184, 164, 213, 0.2);
-        }
-
-        .audio-btn-focused.generate-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(184, 164, 213, 0.3);
-            background: rgba(184, 164, 213, 0.3);
-        }
-
-        .audio-btn-focused.generate-btn:disabled {
-            background: rgba(184, 164, 213, 0.1);
-            color: rgba(45, 45, 45, 0.4);
-            border: 1.5px solid rgba(184, 164, 213, 0.3);
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .listening-status {
-            padding: 14px 20px;
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 12px;
-            margin-bottom: 0;
-            font-size: 0.95em;
-            min-height: 50px;
-            font-weight: 500;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            color: #2d2d2d;
-        }
-
-        .listening-status.active {
-            background: rgba(184, 164, 213, 0.15);
-            color: #2d2d2d;
-            border: 1px solid rgba(184, 164, 213, 0.4);
-            box-shadow: 0 2px 12px rgba(184, 164, 213, 0.15);
-        }
-
-        .listening-status.error {
-            background: rgba(227, 143, 169, 0.15);
-            color: #2d2d2d;
-            border: 1px solid rgba(227, 143, 169, 0.4);
-            box-shadow: 0 2px 12px rgba(227, 143, 169, 0.15);
-        }
-
-        .connection-indicator {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            margin-right: 8px;
-            animation: pulse 2s infinite;
-        }
-
-        .connection-indicator.connected {
-            background: #4ade80;
-        }
-
-        .connection-indicator.connecting {
-            background: #fbbf24;
-        }
-
-        .connection-indicator.error {
-            background: #ef4444;
-            animation: none;
-        }
-
-        .live-transcript-section {
-            margin-top: 0;
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            border-radius: 24px;
-            padding: 32px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            position: sticky;
-            top: 100px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .live-transcript-section:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-        }
-
-        .live-transcript-container {
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            border-radius: 16px;
-            padding: 20px;
-            max-height: calc(100vh - 300px);
-            min-height: 400px;
+            padding: 24px;
+            height: 400px;
             overflow-y: auto;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            font-size: 0.95em;
-            line-height: 1.6;
-            color: #2d2d2d;
-        }
-
-        .live-transcript-container::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .live-transcript-container::-webkit-scrollbar-track {
-            background: rgba(184, 164, 213, 0.1);
-            border-radius: 10px;
-        }
-
-        .live-transcript-container::-webkit-scrollbar-thumb {
-            background: rgba(184, 164, 213, 0.4);
-            border-radius: 10px;
-        }
-
-        .live-transcript-container::-webkit-scrollbar-thumb:hover {
-            background: rgba(184, 164, 213, 0.6);
-        }
-
-        .transcript-placeholder {
-            text-align: center;
-            color: rgba(45, 45, 45, 0.5);
-            font-style: italic;
-            padding: 40px 20px;
-            font-size: 1.05em;
+            border: 2px solid rgba(0, 0, 0, 0.05);
         }
 
         .transcript-entry {
             margin-bottom: 16px;
-            padding: 16px 20px;
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            animation: slideIn 0.5s ease-out;
-            transition: all 0.3s ease;
-        }
-
-        .transcript-entry:hover {
-            background: rgba(255, 255, 255, 0.65);
-            transform: translateX(2px);
+            padding: 12px;
+            background: white;
+            border-radius: 10px;
+            border-left: 4px solid #a855f7;
         }
 
         .transcript-speaker {
             font-weight: 600;
-            color: #6b5b7b;
-            font-size: 0.9em;
-            margin-bottom: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            color: #a855f7;
+            margin-bottom: 4px;
         }
 
         .transcript-text {
             color: #2d2d2d;
-            line-height: 1.7;
-            font-size: 0.98em;
+            line-height: 1.5;
         }
 
-        .transcript-time {
-            font-size: 0.75em;
-            color: rgba(45, 45, 45, 0.5);
-            margin-top: 8px;
-            font-weight: 500;
+        .status-indicator {
+            padding: 12px 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .status-active {
+            background: rgba(16, 185, 129, 0.15);
+            color: #059669;
+            border: 2px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .status-inactive {
+            background: rgba(107, 114, 128, 0.15);
+            color: #4b5563;
+            border: 2px solid rgba(107, 114, 128, 0.3);
+        }
+
+        .suggestions-box {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 16px;
+            padding: 24px;
+            border: 2px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .suggestions-box h3 {
+            margin-bottom: 16px;
+            font-size: 1.2em;
+        }
+
+        .suggestion {
+            padding: 14px;
+            margin-bottom: 12px;
+            background: white;
+            border-radius: 10px;
+            border-left: 4px solid #ec4899;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .suggestion:hover {
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Summary Screen */
+        .qa-item {
+            margin-bottom: 28px;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            border-left: 4px solid #a855f7;
+        }
+
+        .qa-question {
+            font-weight: 600;
+            color: #2d2d2d;
+            margin-bottom: 8px;
+            font-size: 1.05em;
+        }
+
+        .qa-answer {
+            color: #4b5563;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .qa-category {
+            display: inline-block;
+            padding: 6px 14px;
+            background: rgba(168, 85, 247, 0.15);
+            color: #a855f7;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .insights-tags {
+            margin-top: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .insight-tag {
+            padding: 6px 12px;
+            background: rgba(236, 72, 153, 0.15);
+            color: #ec4899;
+            border-radius: 20px;
+            font-size: 0.85em;
+        }
+
+        /* Report Screen */
+        .report-content {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            line-height: 1.8;
+        }
+
+        .report-content h2 {
+            color: #2d2d2d;
+            margin-top: 32px;
+            margin-bottom: 16px;
+            font-size: 1.5em;
+        }
+
+        .report-content h2:first-child {
+            margin-top: 0;
+        }
+
+        .report-content ul {
+            margin-left: 24px;
+            margin-bottom: 20px;
+        }
+
+        .report-content li {
+            margin-bottom: 12px;
+            color: #4b5563;
+        }
+
+        .report-content blockquote {
+            margin: 20px 0;
+            padding: 16px 24px;
+            border-left: 4px solid #a855f7;
+            background: rgba(168, 85, 247, 0.05);
+            font-style: italic;
+            color: #4b5563;
+        }
+
+        .report-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin: 24px 0;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            display: block;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            margin-top: 24px;
         }
 
         .loading {
             text-align: center;
-            padding: 30px 20px;
-            color: rgba(45, 45, 45, 0.6);
-            font-size: 1.05em;
-            font-weight: 500;
+            padding: 40px;
+            font-size: 1.1em;
+            color: #666;
         }
 
-        .error {
-            background: rgba(227, 143, 169, 0.15);
-            color: #8b5a6b;
-            padding: 16px 20px;
-            border-radius: 14px;
-            margin-bottom: 16px;
-            border: 1px solid rgba(227, 143, 169, 0.3);
-            font-size: 0.95em;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            font-weight: 500;
+        .spinner {
+            border: 4px solid rgba(168, 85, 247, 0.2);
+            border-top: 4px solid #a855f7;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
         }
 
-        .footer {
-            text-align: center;
-            padding: 24px;
-            margin-top: 30px;
-            color: rgba(45, 45, 45, 0.6);
-            font-size: 0.9em;
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            font-weight: 500;
-        }
-
-        @media (max-width: 600px) {
-            .header {
-                padding: 16px;
-            }
-
-            .header h1 {
-                font-size: 1.3em;
-            }
-
-            .content {
-                padding: 20px;
-            }
-
-            .question-text {
-                font-size: 1em;
-            }
-
-            .audio-btn-focused {
-                font-size: 0.95em;
-                padding: 14px 20px;
-            }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>🎤 Interview Assistant</h1>
-        </div>
 
-        <div class="content">
-            <div id="error-container"></div>
+        <!-- SCREEN 1: Landing / Product Input -->
+        <div id="screen-landing" class="screen active">
+            <div class="header">
+                <h1>🎯 UX Interview Assistant</h1>
+                <p>Prepare for customer discovery interviews with AI-generated questions</p>
+            </div>
 
-            <!-- Main Content - Side by Side Layout -->
-            <div class="main-content-focused">
-                <!-- Left Column: Questions and Audio Controls -->
-                <div class="left-column">
-                    <!-- Questions Section -->
-                    <div class="questions-section-focused">
-                        <div class="section-title-focused">💡 Suggested Questions</div>
-                        <div id="questions-container">
-                            <div class="loading">Loading questions...</div>
-                        </div>
-                    </div>
+            <div class="card">
+                <div class="form-group">
+                    <label for="product-description">📦 Product Description</label>
+                    <textarea id="product-description" placeholder="Describe your product or feature. What does it do? Who is it for?
 
-                    <!-- Audio Controls -->
-                    <div class="audio-section-focused">
-                        <div class="audio-controls-focused">
-                            <button id="start-listening-btn" class="audio-btn-focused start-btn" onclick="startListening()">
-                                🎤 START RECORDING
-                            </button>
-                            <button id="stop-listening-btn" class="audio-btn-focused stop-btn" onclick="stopListening()" style="display: none;">
-                                ⏹️ STOP RECORDING
-                            </button>
-                            <button id="generate-btn" class="audio-btn-focused generate-btn" onclick="generateQuestions()">
-                                ✨ GENERATE QUESTIONS
-                            </button>
-                        </div>
-                        <div id="listening-status" class="listening-status"></div>
-                    </div>
+Example: We're building a meal planning app for busy professionals that helps them create weekly meal plans based on their dietary preferences and automatically generates shopping lists."></textarea>
                 </div>
 
-                <!-- Right Column: Live Transcript (Always Visible) -->
-                <div id="live-transcript-section" class="live-transcript-section">
-                    <div class="section-title-focused">📝 Live Transcript</div>
-                    <div id="live-transcript-container" class="live-transcript-container">
-                        <div class="transcript-placeholder">Start recording to see transcript...</div>
+                <div class="form-group">
+                    <label for="research-goals">🎯 Customer Discovery Goals</label>
+                    <textarea id="research-goals" placeholder="What do you want to learn from this interview? What assumptions do you want to validate?
+
+Example: We want to understand how busy professionals currently plan their meals, what pain points they face, and whether automated meal planning would save them time. We also want to validate if grocery list generation is a valuable feature."></textarea>
+                </div>
+
+                <button class="btn btn-primary btn-full" onclick="generateQuestions()" id="generate-btn">
+                    ✨ Generate Interview Questions
+                </button>
+            </div>
+        </div>
+
+        <!-- SCREEN 2: Question Review -->
+        <div id="screen-questions" class="screen">
+            <div class="header">
+                <h1>📝 Review Your Questions</h1>
+                <p>Remove any questions you don't want to ask during the interview</p>
+            </div>
+
+            <div class="card">
+                <div id="questions-container">
+                    <!-- Questions will be loaded here -->
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" onclick="showScreen('screen-landing')">← Back</button>
+                    <button class="btn btn-primary" onclick="startLiveMode()" style="flex: 1;">
+                        🎤 Start Live Mode
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 3: Live Interview Mode -->
+        <div id="screen-interview" class="screen">
+            <div class="header">
+                <h1>🎙️ Live Interview</h1>
+                <p>Real-time transcription and AI-powered question suggestions</p>
+            </div>
+
+            <div class="card">
+                <div id="listening-status" class="status-indicator status-inactive">
+                    ⏸️ Not Recording
+                </div>
+
+                <div class="action-buttons" style="margin-bottom: 24px;">
+                    <button class="btn btn-primary" onclick="startRecording()" id="record-btn">
+                        🎤 Start Recording
+                    </button>
+                    <button class="btn btn-secondary" onclick="stopRecording()" id="stop-btn" disabled>
+                        ⏹️ Stop Recording
+                    </button>
+                    <button class="btn btn-danger" onclick="endInterview()" style="margin-left: auto;">
+                        📞 End Call
+                    </button>
+                </div>
+
+                <div class="interview-layout">
+                    <div>
+                        <h3 style="margin-bottom: 16px;">Live Transcript</h3>
+                        <div id="transcript-box" class="transcript-box">
+                            <p style="color: #666; text-align: center; padding: 40px;">
+                                Transcript will appear here once recording starts...
+                            </p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="suggestions-box">
+                            <h3>💡 AI Question Suggestions</h3>
+                            <div id="suggestions-box">
+                                <p style="color: #666;">Click "Generate Questions" to get AI suggestions</p>
+                            </div>
+                            <button class="btn btn-secondary btn-full" onclick="getSuggestions()" style="margin-top: 16px;">
+                                🔄 Generate Questions
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="footer">
-            Click "Generate Questions" to get AI-powered interview suggestions
+        <!-- SCREEN 4: Interview Summary -->
+        <div id="screen-summary" class="screen">
+            <div class="header">
+                <h1>📊 Interview Summary</h1>
+                <p>Questions asked and answers with category tagging</p>
+            </div>
+
+            <div class="card">
+                <div id="summary-container" class="loading">
+                    <div class="spinner"></div>
+                    <p>Processing interview data...</p>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" onclick="backToInterview()">← Back to Interview</button>
+                    <button class="btn btn-primary" onclick="generateReport()" id="create-report-btn" style="flex: 1;" disabled>
+                        📄 Create Report
+                    </button>
+                </div>
+            </div>
         </div>
+
+        <!-- SCREEN 5: Research Report -->
+        <div id="screen-report" class="screen">
+            <div class="header">
+                <h1>📑 Research Report</h1>
+                <p>Comprehensive findings from your interview</p>
+            </div>
+
+            <div class="card">
+                <div id="report-container" class="loading">
+                    <div class="spinner"></div>
+                    <p>Generating research report...</p>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" onclick="showScreen('screen-summary')">← Back to Summary</button>
+                    <button class="btn btn-primary" onclick="downloadReport()">
+                        💾 Download Report
+                    </button>
+                    <button class="btn btn-primary" onclick="startNewInterview()">
+                        🔄 New Interview
+                    </button>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script>
-        const API_BASE = window.location.origin;
-        let isListening = false;
+        // Global state
+        let currentScreen = 'screen-landing';
+        let generatedQuestions = [];
+        let isRecording = false;
+        let deepgramSocket = null;
         let mediaRecorder = null;
         let audioContext = null;
-        let deepgramSocket = null;
-        let audioStream = null;
-        let reconnectAttempts = 0;
-        let maxReconnectAttempts = 5;
-        let reconnectTimeout = null;
-        let keepAliveInterval = null;
-        let deepgramApiKey = null;
-        let liveTranscriptEntries = [];
+        let suggestionsInterval = null;
+        let interviewData = null;
+        let reportData = null;
 
-        // Fetch and display questions
-        async function fetchQuestions() {
-            try {
-                const response = await fetch(`${API_BASE}/suggestions`);
-                if (!response.ok) throw new Error('Failed to fetch questions');
-
-                const data = await response.json();
-                displayQuestions(data.questions);
-                hideError();
-            } catch (error) {
-                console.error('Error fetching questions:', error);
-                showError('Unable to fetch questions. Make sure the backend is running.');
-            }
+        // Screen management
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+            currentScreen = screenId;
         }
 
-        // Display questions in the UI
-        function displayQuestions(questions) {
-            const container = document.getElementById('questions-container');
+        // SCREEN 1: Generate Questions
+        async function generateQuestions() {
+            const productDesc = document.getElementById('product-description').value.trim();
+            const researchGoals = document.getElementById('research-goals').value.trim();
 
-            if (!questions || questions.length === 0) {
-                container.innerHTML = '<div class="loading">No questions available yet.</div>';
+            if (!productDesc || !researchGoals) {
+                alert('Please fill in both product description and research goals');
                 return;
             }
 
-            container.innerHTML = questions.map((question, index) => `
-                <div class="question-card">
-                    <span class="question-number">${index + 1}</span>
-                    <span class="question-text">${escapeHtml(question)}</span>
-                </div>
-            `).join('');
-        }
-
-        // Show error message
-        function showError(message) {
-            const container = document.getElementById('error-container');
-            container.innerHTML = `<div class="error">⚠️ ${escapeHtml(message)}</div>`;
-        }
-
-        // Hide error message
-        function hideError() {
-            const container = document.getElementById('error-container');
-            container.innerHTML = '';
-        }
-
-        // Escape HTML to prevent XSS
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        // Initial fetch on page load
-        fetchQuestions();
-
-        // Generate questions manually when user clicks button
-        async function generateQuestions() {
             const btn = document.getElementById('generate-btn');
             btn.disabled = true;
-            btn.textContent = '⏳ GENERATING...';
+            btn.textContent = '⏳ Generating questions...';
 
-            await fetchQuestions();
+            try {
+                const response = await fetch('/generate-questions', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        product_description: productDesc,
+                        research_goals: researchGoals
+                    })
+                });
 
-            btn.disabled = false;
-            btn.textContent = '✨ GENERATE QUESTIONS';
+                const data = await response.json();
+                generatedQuestions = data.categories;
+                displayQuestions();
+                showScreen('screen-questions');
+
+            } catch (error) {
+                console.error('Error generating questions:', error);
+                alert('Error generating questions. Please try again.');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '✨ Generate Interview Questions';
+            }
         }
 
+        // SCREEN 2: Display Questions
+        function displayQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
 
-        // ===== LIVE AUDIO TRANSCRIPTION (DEEPGRAM) WITH AUTO-RECONNECT =====
+            generatedQuestions.forEach((category, catIndex) => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'category';
+                categoryDiv.innerHTML = `<div class="category-header">${category.name}</div>`;
 
-        async function startListening() {
+                category.questions.forEach((q, qIndex) => {
+                    const questionDiv = document.createElement('div');
+                    questionDiv.className = 'question-item' + (q.selected ? '' : ' removed');
+                    questionDiv.innerHTML = `
+                        <div class="question-text">${q.text}</div>
+                        <div class="question-actions">
+                            <button class="btn btn-secondary btn-small" onclick="toggleQuestion(${catIndex}, ${qIndex})">
+                                ${q.selected ? '✓ Selected' : '+ Add Back'}
+                            </button>
+                        </div>
+                    `;
+                    categoryDiv.appendChild(questionDiv);
+                });
+
+                container.appendChild(categoryDiv);
+            });
+        }
+
+        function toggleQuestion(catIndex, qIndex) {
+            generatedQuestions[catIndex].questions[qIndex].selected =
+                !generatedQuestions[catIndex].questions[qIndex].selected;
+            displayQuestions();
+        }
+
+        // SCREEN 3: Live Interview Mode
+        async function startLiveMode() {
+            // Start interview session on backend
+            await fetch('/start-interview', { method: 'POST' });
+            showScreen('screen-interview');
+        }
+
+        async function startRecording() {
             try {
-                // Request microphone access (only once)
-                if (!audioStream) {
-                    audioStream = await navigator.mediaDevices.getUserMedia({
-                        audio: {
-                            channelCount: 1,
-                            sampleRate: 16000,
-                            echoCancellation: true,
-                            noiseSuppression: true
-                        }
-                    });
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+                // Get Deepgram API key
+                const keyResponse = await fetch('/deepgram-key');
+                const keyData = await keyResponse.json();
+
+                if (!keyData.api_key) {
+                    alert('Deepgram API key not configured');
+                    return;
                 }
 
-                // Get Deepgram API key from backend (cache it)
-                if (!deepgramApiKey) {
-                    const response = await fetch(`${API_BASE}/deepgram-key`);
-                    const data = await response.json();
-
-                    if (!data.api_key) {
-                        throw new Error('Deepgram API key not configured. Please add DEEPGRAM_API_KEY to your .env file. Get a free key at https://deepgram.com');
-                    }
-                    deepgramApiKey = data.api_key;
-                }
-
-                // Connect to Deepgram WebSocket
-                updateListeningStatus('🔄 Connecting to Deepgram...', 'active');
-                const deepgramUrl = `wss://api.deepgram.com/v1/listen?encoding=linear16&sample_rate=16000&channels=1&model=nova-2&language=en-US&punctuate=true&interim_results=true`;
-                deepgramSocket = new WebSocket(deepgramUrl, ['token', deepgramApiKey]);
+                // Connect to Deepgram
+                const deepgramUrl = `wss://api.deepgram.com/v1/listen?encoding=linear16&sample_rate=16000&channels=1`;
+                deepgramSocket = new WebSocket(deepgramUrl, ['token', keyData.api_key]);
 
                 deepgramSocket.onopen = () => {
-                    console.log('✓ Connected to Deepgram');
-                    reconnectAttempts = 0; // Reset reconnect counter on successful connection
-                    updateListeningStatus('🎤 Listening... (Connected)', 'active');
-                    isListening = true;
-                    document.getElementById('start-listening-btn').style.display = 'none';
-                    document.getElementById('stop-listening-btn').style.display = 'block';
-
-                    // Clear previous transcript (only on fresh start, not reconnect)
-                    if (reconnectAttempts === 0 && liveTranscriptEntries.length === 0) {
-                        clearLiveTranscript();
-                    }
-
-                    // Start sending audio
-                    startAudioStream(audioStream);
-
-                    // Start keep-alive pings (every 8 seconds)
-                    startKeepAlive();
+                    console.log('Connected to Deepgram');
+                    updateStatus('🎤 Recording...', true);
+                    isRecording = true;
+                    document.getElementById('record-btn').disabled = true;
+                    document.getElementById('stop-btn').disabled = false;
                 };
 
                 deepgramSocket.onmessage = (event) => {
                     const data = JSON.parse(event.data);
-                    console.log('Deepgram message:', data);
-
-                    // Handle transcript messages
                     if (data.channel && data.channel.alternatives && data.channel.alternatives[0]) {
                         const transcript = data.channel.alternatives[0].transcript;
                         if (transcript && data.is_final) {
-                            console.log('Final transcript:', transcript);
-                            // Add to live transcript display
-                            addToLiveTranscript(transcript, 'Participant');
-
-                            // Send to backend
+                            addTranscript(transcript, 'Participant');
                             sendTranscriptToBackend(transcript, 'Participant');
-                            updateListeningStatus('🎤 Listening... (Transcribing)', 'active');
                         }
                     }
                 };
 
                 deepgramSocket.onerror = (error) => {
                     console.error('Deepgram error:', error);
-                    updateListeningStatus(`⚠️ Connection error (attempt ${reconnectAttempts + 1}/${maxReconnectAttempts})`, 'error');
+                    updateStatus('⚠️ Connection error', false);
                 };
 
-                deepgramSocket.onclose = (event) => {
-                    console.log('Deepgram connection closed', event.code, event.reason);
-                    stopKeepAlive();
-
-                    if (isListening && reconnectAttempts < maxReconnectAttempts) {
-                        // Auto-reconnect
-                        reconnectAttempts++;
-                        const delay = Math.min(1000 * Math.pow(2, reconnectAttempts - 1), 10000); // Exponential backoff
-                        updateListeningStatus(`🔄 Reconnecting in ${delay/1000}s... (${reconnectAttempts}/${maxReconnectAttempts})`, 'active');
-
-                        reconnectTimeout = setTimeout(() => {
-                            if (isListening) {
-                                console.log('Attempting reconnect...');
-                                startListening();
-                            }
-                        }, delay);
-                    } else if (isListening && reconnectAttempts >= maxReconnectAttempts) {
-                        updateListeningStatus('❌ Connection lost. Click "START RECORDING" to retry.', 'error');
-                        isListening = false;
-                        document.getElementById('start-listening-btn').style.display = 'block';
-                        document.getElementById('stop-listening-btn').style.display = 'none';
-                        reconnectAttempts = 0;
-                    }
-                };
-
-            } catch (error) {
-                console.error('Error starting audio:', error);
-                if (error.name === 'NotAllowedError') {
-                    updateListeningStatus('❌ Microphone access denied. Please allow microphone access and try again.', 'error');
-                } else if (error.message.includes('Deepgram')) {
-                    updateListeningStatus(`❌ ${error.message}`, 'error');
-                } else {
-                    updateListeningStatus('❌ Error: ' + error.message, 'error');
-                }
-                isListening = false;
-            }
-        }
-
-        // Keep-alive function to prevent timeout during silence
-        function startKeepAlive() {
-            stopKeepAlive(); // Clear any existing interval
-            keepAliveInterval = setInterval(() => {
-                if (deepgramSocket && deepgramSocket.readyState === WebSocket.OPEN) {
-                    try {
-                        // Send empty audio buffer as keepalive (silence)
-                        const silentBuffer = new Int16Array(4096);
-                        deepgramSocket.send(silentBuffer.buffer);
-                        console.log('📡 Keep-alive ping sent');
-                    } catch (e) {
-                        console.error('Keep-alive failed:', e);
-                    }
-                }
-            }, 5000); // Every 5 seconds
-        }
-
-        function stopKeepAlive() {
-            if (keepAliveInterval) {
-                clearInterval(keepAliveInterval);
-                keepAliveInterval = null;
-            }
-        }
-
-        function startAudioStream(stream) {
-            try {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)({
-                    sampleRate: 16000
-                });
-
+                // Setup audio processing
+                audioContext = new AudioContext({ sampleRate: 16000 });
                 const source = audioContext.createMediaStreamSource(stream);
                 const processor = audioContext.createScriptProcessor(4096, 1, 1);
 
-                let audioChunksSent = 0;
                 processor.onaudioprocess = (e) => {
                     if (deepgramSocket && deepgramSocket.readyState === WebSocket.OPEN) {
-                        try {
-                            const inputData = e.inputBuffer.getChannelData(0);
-                            const int16Array = new Int16Array(inputData.length);
-                            for (let i = 0; i < inputData.length; i++) {
-                                int16Array[i] = Math.max(-32768, Math.min(32767, inputData[i] * 32768));
-                            }
-                            deepgramSocket.send(int16Array.buffer);
-                            audioChunksSent++;
-                            if (audioChunksSent === 1) {
-                                console.log('✓ Audio streaming started, first chunk sent');
-                            }
-                        } catch (err) {
-                            console.error('Error sending audio:', err);
-                        }
+                        const inputData = e.inputBuffer.getChannelData(0);
+                        const pcm16 = floatTo16BitPCM(inputData);
+                        deepgramSocket.send(pcm16);
                     }
                 };
 
                 source.connect(processor);
                 processor.connect(audioContext.destination);
-                console.log('✓ Audio stream configured');
+
             } catch (error) {
-                console.error('Error setting up audio stream:', error);
+                console.error('Error starting recording:', error);
+                alert('Error accessing microphone: ' + error.message);
             }
         }
 
-        function stopListening() {
-            console.log('Stopping listening...');
-            isListening = false;
-            reconnectAttempts = 0;
-
-            // Clear reconnect timeout
-            if (reconnectTimeout) {
-                clearTimeout(reconnectTimeout);
-                reconnectTimeout = null;
-            }
-
-            // Stop keep-alive
-            stopKeepAlive();
-
-            // Close WebSocket
+        function stopRecording() {
             if (deepgramSocket) {
                 deepgramSocket.close();
                 deepgramSocket = null;
             }
-
-            // Stop audio stream
-            if (audioStream) {
-                audioStream.getTracks().forEach(track => track.stop());
-                audioStream = null;
-            }
-
-            // Close audio context
             if (audioContext) {
                 audioContext.close();
                 audioContext = null;
             }
-
-            document.getElementById('start-listening-btn').style.display = 'block';
-            document.getElementById('stop-listening-btn').style.display = 'none';
-            updateListeningStatus('', '');
+            isRecording = false;
+            updateStatus('⏸️ Not Recording', false);
+            document.getElementById('record-btn').disabled = false;
+            document.getElementById('stop-btn').disabled = true;
         }
 
-        function addToLiveTranscript(text, speaker) {
-            // Add to transcript array
-            const timestamp = new Date().toLocaleTimeString();
-            liveTranscriptEntries.push({
-                text: text,
-                speaker: speaker,
-                timestamp: timestamp
-            });
-
-            // Keep last 50 entries
-            if (liveTranscriptEntries.length > 50) {
-                liveTranscriptEntries.shift();
+        function floatTo16BitPCM(float32Array) {
+            const buffer = new ArrayBuffer(float32Array.length * 2);
+            const view = new DataView(buffer);
+            for (let i = 0; i < float32Array.length; i++) {
+                const s = Math.max(-1, Math.min(1, float32Array[i]));
+                view.setInt16(i * 2, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
             }
-
-            // Update display
-            updateLiveTranscriptDisplay();
+            return buffer;
         }
 
-        function updateLiveTranscriptDisplay() {
-            const container = document.getElementById('live-transcript-container');
-
-            if (liveTranscriptEntries.length === 0) {
-                container.innerHTML = '<div class="transcript-placeholder">Start recording to see transcript...</div>';
-                return;
-            }
-
-            container.innerHTML = liveTranscriptEntries.map(entry => `
-                <div class="transcript-entry">
-                    <div class="transcript-speaker">${escapeHtml(entry.speaker)}</div>
-                    <div class="transcript-text">${escapeHtml(entry.text)}</div>
-                    <div class="transcript-time">${escapeHtml(entry.timestamp)}</div>
-                </div>
-            `).join('');
-
-            // Auto-scroll to bottom
-            container.scrollTop = container.scrollHeight;
-        }
-
-        function clearLiveTranscript() {
-            liveTranscriptEntries = [];
-            updateLiveTranscriptDisplay();
-        }
-
-        function updateListeningStatus(message, className) {
+        function updateStatus(text, isActive) {
             const statusEl = document.getElementById('listening-status');
+            statusEl.textContent = text;
+            statusEl.className = 'status-indicator ' + (isActive ? 'status-active' : 'status-inactive');
+        }
 
-            // Add connection indicator dot
-            let indicatorClass = '';
-            if (className === 'active') {
-                if (message.includes('Connecting')) {
-                    indicatorClass = 'connecting';
-                } else {
-                    indicatorClass = 'connected';
-                }
-            } else if (className === 'error') {
-                indicatorClass = 'error';
+        function addTranscript(text, speaker) {
+            const box = document.getElementById('transcript-box');
+            if (box.querySelector('p')) {
+                box.innerHTML = '';
             }
 
-            if (indicatorClass) {
-                statusEl.innerHTML = `<span class="connection-indicator ${indicatorClass}"></span>${message}`;
-            } else {
-                statusEl.textContent = message;
-            }
-
-            statusEl.className = 'listening-status ' + className;
+            const entry = document.createElement('div');
+            entry.className = 'transcript-entry';
+            entry.innerHTML = `
+                <div class="transcript-speaker">${speaker}</div>
+                <div class="transcript-text">${text}</div>
+            `;
+            box.appendChild(entry);
+            box.scrollTop = box.scrollHeight;
         }
 
         async function sendTranscriptToBackend(text, speaker) {
+            await fetch('/transcript', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text, speaker })
+            });
+        }
+
+        async function getSuggestions() {
             try {
-                await fetch(`${API_BASE}/transcript`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        text: text,
-                        speaker: speaker
-                    })
+                const response = await fetch('/suggestions');
+                const data = await response.json();
+
+                const box = document.getElementById('suggestions-box');
+                box.innerHTML = '';
+
+                data.questions.forEach(q => {
+                    const div = document.createElement('div');
+                    div.className = 'suggestion';
+                    div.textContent = q;
+                    div.onclick = () => {
+                        addTranscript(q, 'Interviewer');
+                        sendTranscriptToBackend(q, 'Interviewer');
+                    };
+                    box.appendChild(div);
                 });
-                // Don't auto-refresh questions - user will press "Generate Questions" button when ready
             } catch (error) {
-                console.error('Error sending transcript:', error);
+                console.error('Error getting suggestions:', error);
             }
         }
+
+        // SCREEN 4: End Interview & Show Summary
+        async function endInterview() {
+            if (isRecording) {
+                stopRecording();
+            }
+
+            showScreen('screen-summary');
+
+            try {
+                const response = await fetch('/end-interview', { method: 'POST' });
+                interviewData = await response.json();
+
+                displaySummary(interviewData.qa_data);
+                document.getElementById('create-report-btn').disabled = false;
+
+            } catch (error) {
+                console.error('Error ending interview:', error);
+                document.getElementById('summary-container').innerHTML =
+                    '<p style="color: #ef4444;">Error processing interview data.</p>';
+            }
+        }
+
+        function displaySummary(qaData) {
+            const container = document.getElementById('summary-container');
+            container.innerHTML = '';
+            container.classList.remove('loading');
+
+            if (!qaData || qaData.length === 0) {
+                container.innerHTML = '<p style="color: #666;">No Q&A data available.</p>';
+                return;
+            }
+
+            qaData.forEach(qa => {
+                const qaDiv = document.createElement('div');
+                qaDiv.className = 'qa-item';
+
+                let insightsHTML = '';
+                if (qa.key_insights && qa.key_insights.length > 0) {
+                    insightsHTML = `
+                        <div class="insights-tags">
+                            ${qa.key_insights.map(insight =>
+                                `<span class="insight-tag">${insight}</span>`
+                            ).join('')}
+                        </div>
+                    `;
+                }
+
+                qaDiv.innerHTML = `
+                    <div class="qa-question">Q: ${qa.question}</div>
+                    <div class="qa-answer">A: ${qa.answer}</div>
+                    <span class="qa-category">${qa.category}</span>
+                    ${insightsHTML}
+                `;
+                container.appendChild(qaDiv);
+            });
+        }
+
+        function backToInterview() {
+            showScreen('screen-interview');
+        }
+
+        // SCREEN 5: Generate Report
+        async function generateReport() {
+            showScreen('screen-report');
+            document.getElementById('report-container').innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Generating comprehensive research report...</p>
+                </div>
+            `;
+
+            try {
+                const response = await fetch('/generate-report', { method: 'POST' });
+                reportData = await response.json();
+
+                displayReport(reportData.report);
+
+            } catch (error) {
+                console.error('Error generating report:', error);
+                document.getElementById('report-container').innerHTML =
+                    '<p style="color: #ef4444;">Error generating report.</p>';
+            }
+        }
+
+        function displayReport(reportMarkdown) {
+            const container = document.getElementById('report-container');
+            container.classList.remove('loading');
+
+            // Debug: Check for markdown images
+            const markdownImages = reportMarkdown.match(/!\[(.*?)\]\((.*?)\)/g);
+            console.log('🖼️ Markdown images found:', markdownImages ? markdownImages.length : 0);
+            if (markdownImages) {
+                markdownImages.forEach((img, i) => console.log(`  Image ${i+1}: ${img.substring(0, 80)}...`));
+            }
+
+            // Simple markdown to HTML conversion
+            let html = reportMarkdown
+                // Convert images FIRST before other replacements
+                .replace(/!\[(.*?)\]\((.*?)\)/g, '<img src="$2" alt="$1" style="max-width: 100%; height: auto; border-radius: 12px; margin: 20px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.1);" />')
+                .replace(/## (.*)/g, '<h2>$1</h2>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/^- (.*)/gm, '<li>$1</li>')
+                .replace(/^> (.*)/gm, '<blockquote>$1</blockquote>')
+                .replace(/\n\n/g, '</p><p>')
+                .replace(/^(?!<[h|l|b|i])/gm, '<p>')
+                .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>');
+
+            container.innerHTML = `<div class="report-content">${html}</div>`;
+
+            // Debug: Check how many img tags were created
+            const imgTags = container.querySelectorAll('img');
+            console.log('✅ Image tags rendered:', imgTags.length);
+            imgTags.forEach((img, i) => {
+                console.log(`  Image ${i+1} src:`, img.src.substring(0, 80) + '...');
+            });
+        }
+
+        function downloadReport() {
+            if (!reportData) return;
+
+            const blob = new Blob([reportData.report], { type: 'text/markdown' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `research-report-${new Date().toISOString().split('T')[0]}.md`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function startNewInterview() {
+            // Reset everything
+            generatedQuestions = [];
+            interviewData = null;
+            reportData = null;
+            document.getElementById('product-description').value = '';
+            document.getElementById('research-goals').value = '';
+            document.getElementById('transcript-box').innerHTML =
+                '<p style="color: #666; text-align: center; padding: 40px;">Transcript will appear here once recording starts...</p>';
+            document.getElementById('suggestions-box').innerHTML =
+                '<p style="color: #666;">Click "Generate Questions" to get AI suggestions</p>';
+
+            showScreen('screen-landing');
+        }
+
+        // Auto-refresh suggestions during interview
+        setInterval(() => {
+            if (currentScreen === 'screen-interview' && isRecording) {
+                getSuggestions();
+            }
+        }, 15000); // Every 15 seconds
     </script>
 </body>
 </html>
