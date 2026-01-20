@@ -454,8 +454,57 @@
 <body>
     <div class="container">
 
-        <!-- Live Interview Mode (Main Screen) -->
-        <div id="screen-interview" class="screen active">
+        <!-- SCREEN 1: Landing / Product Input -->
+        <div id="screen-landing" class="screen active">
+            <div class="header">
+                <h1>🎯 UX Interview Assistant</h1>
+                <p>Prepare for customer discovery interviews with AI-generated questions</p>
+            </div>
+
+            <div class="card">
+                <div class="form-group">
+                    <label for="product-description">📦 Product Description</label>
+                    <textarea id="product-description" placeholder="Describe your product or feature. What does it do? Who is it for?
+
+Example: We're building a meal planning app for busy professionals that helps them create weekly meal plans based on their dietary preferences and automatically generates shopping lists."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="research-goals">🎯 Customer Discovery Goals</label>
+                    <textarea id="research-goals" placeholder="What do you want to learn from this interview? What assumptions do you want to validate?
+
+Example: We want to understand how busy professionals currently plan their meals, what pain points they face, and whether automated meal planning would save them time. We also want to validate if grocery list generation is a valuable feature."></textarea>
+                </div>
+
+                <button class="btn btn-primary btn-full" onclick="generateQuestions()" id="generate-btn">
+                    ✨ Generate Interview Questions
+                </button>
+            </div>
+        </div>
+
+        <!-- SCREEN 2: Question Review -->
+        <div id="screen-questions" class="screen">
+            <div class="header">
+                <h1>📝 Review Your Questions</h1>
+                <p>Remove any questions you don't want to ask during the interview</p>
+            </div>
+
+            <div class="card">
+                <div id="questions-container">
+                    <!-- Questions will be loaded here -->
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" onclick="showScreen('screen-landing')">← Back</button>
+                    <button class="btn btn-primary" onclick="startLiveMode()" style="flex: 1;">
+                        🎤 Start Live Mode
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 3: Live Interview Mode -->
+        <div id="screen-interview" class="screen">
             <div class="header">
                 <h1>🎙️ Live Interview</h1>
                 <p>Real-time transcription and AI-powered question suggestions</p>
@@ -505,7 +554,7 @@
 
     <script>
         // Global state
-        let currentScreen = 'screen-interview';
+        let currentScreen = 'screen-landing';
         let generatedQuestions = [];
         let isRecording = false;
         let deepgramSocket = null;

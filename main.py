@@ -315,9 +315,8 @@ def generate_questions_with_createai(context: str) -> List[str]:
         ]
 
 
-# Disabled - not needed for simplified live Q&A only version
-# @app.post("/generate-questions")
-async def generate_interview_questions_disabled(product_input: ProductInput):
+@app.post("/generate-questions")
+async def generate_interview_questions(product_input: ProductInput):
     """
     Generate interview questions based on product description and research goals
     Uses Gemini API to create categorized questions
@@ -444,9 +443,8 @@ Return ONLY the JSON, no other text."""
         }
 
 
-# Disabled - not needed for simplified live Q&A only version
-# @app.get("/questions")
-async def get_generated_questions_disabled():
+@app.get("/questions")
+async def get_generated_questions():
     """Get the currently generated questions"""
     return {
         "categories": generated_questions,
@@ -455,9 +453,8 @@ async def get_generated_questions_disabled():
     }
 
 
-# Disabled - not needed for simplified live Q&A only version
-# @app.post("/questions")
-async def update_questions_disabled(update: QuestionUpdate):
+@app.post("/questions")
+async def update_questions(update: QuestionUpdate):
     """Update the question list (when user removes questions)"""
     global generated_questions
     generated_questions = update.questions
@@ -468,9 +465,8 @@ async def update_questions_disabled(update: QuestionUpdate):
     }
 
 
-# Disabled - not needed for simplified live Q&A only version
-# @app.post("/start-interview")
-async def start_interview_disabled():
+@app.post("/start-interview")
+async def start_interview():
     """Reset transcript history and prepare for new interview"""
     global transcript_history, transcript_summary, interview_qa_data
     transcript_history = []
