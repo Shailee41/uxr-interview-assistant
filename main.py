@@ -315,8 +315,9 @@ def generate_questions_with_createai(context: str) -> List[str]:
         ]
 
 
-@app.post("/generate-questions")
-async def generate_interview_questions(product_input: ProductInput):
+# Disabled - not needed for simplified live Q&A only version
+# @app.post("/generate-questions")
+async def generate_interview_questions_disabled(product_input: ProductInput):
     """
     Generate interview questions based on product description and research goals
     Uses Gemini API to create categorized questions
@@ -443,8 +444,9 @@ Return ONLY the JSON, no other text."""
         }
 
 
-@app.get("/questions")
-async def get_generated_questions():
+# Disabled - not needed for simplified live Q&A only version
+# @app.get("/questions")
+async def get_generated_questions_disabled():
     """Get the currently generated questions"""
     return {
         "categories": generated_questions,
@@ -453,8 +455,9 @@ async def get_generated_questions():
     }
 
 
-@app.post("/questions")
-async def update_questions(update: QuestionUpdate):
+# Disabled - not needed for simplified live Q&A only version
+# @app.post("/questions")
+async def update_questions_disabled(update: QuestionUpdate):
     """Update the question list (when user removes questions)"""
     global generated_questions
     generated_questions = update.questions
@@ -465,8 +468,9 @@ async def update_questions(update: QuestionUpdate):
     }
 
 
-@app.post("/start-interview")
-async def start_interview():
+# Disabled - not needed for simplified live Q&A only version
+# @app.post("/start-interview")
+async def start_interview_disabled():
     """Reset transcript history and prepare for new interview"""
     global transcript_history, transcript_summary, interview_qa_data
     transcript_history = []
@@ -480,8 +484,9 @@ async def start_interview():
     }
 
 
-@app.post("/end-interview")
-async def end_interview():
+# Disabled - not needed for simplified live Q&A only version
+# @app.post("/end-interview")
+async def end_interview_disabled():
     """Process interview data and prepare summary with Q&A tagging"""
     global interview_qa_data, transcript_history
 
@@ -666,8 +671,9 @@ def analyze_interview_database():
     }
 
 
-@app.post("/generate-report")
-async def generate_report():
+# Disabled - not needed for simplified live Q&A only version
+# @app.post("/generate-report")
+async def generate_report_disabled():
     """Generate comprehensive UX research report from 20 interview database with Freepik images"""
     try:
         # Analyze the interview database
@@ -809,8 +815,9 @@ Format as markdown. Use specific numbers and data points. Be professional and ac
         }
 
 
-@app.get("/database-stats")
-async def get_database_stats():
+# Disabled - not needed for simplified live Q&A only version
+# @app.get("/database-stats")
+async def get_database_stats_disabled():
     """Get statistics about the interview database"""
     analysis = analyze_interview_database()
 
